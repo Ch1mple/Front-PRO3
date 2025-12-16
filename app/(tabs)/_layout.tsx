@@ -11,7 +11,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import AntDesign from '@expo/vector-icons/AntDesign';
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-
+  // Panel de pestañas de la aplicación (muchas en desuso por pruebar y futuras actualizaciones)
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Tabs
