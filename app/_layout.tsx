@@ -13,10 +13,10 @@ export default function RootLayout() {
   });
 
   if (!loaded) {
-    // Async font loading only occurs in development.
+    // carga de las fuentes
     return null;
   }
-
+// color del tema de la aplicacion
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>

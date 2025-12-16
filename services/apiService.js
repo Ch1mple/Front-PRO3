@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { API_BASE_URL } from '../config.js'
-
+// llamadas a los servicios de la api
 export const getEvents = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/events`)

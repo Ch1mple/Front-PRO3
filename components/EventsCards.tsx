@@ -11,7 +11,7 @@ const FILTERS = [
   { key: 'distance', label: 'Distance' },
 ];
 
-// Haversine formula to calculate distance between two lat/lng points in km
+// formula para calcular la distancia entre dos puntos geográficos
 function getDistance(lat1, lon1, lat2, lon2) {
   if (
     typeof lat1 !== 'number' ||
@@ -33,7 +33,7 @@ function getDistance(lat1, lon1, lat2, lon2) {
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 }
-
+// Tarjeta de evento
 const EventCard = ({ event, distance }) => {
   const navigation = useNavigation();
   return (
@@ -62,13 +62,13 @@ const EventCard = ({ event, distance }) => {
     </TouchableOpacity>
   );
 };
-
+// Componente principal de cards de eventos con filtros
 export default function EventCards({ events }) {
   const [filter, setFilter] = useState('all');
   const [userLocation, setUserLocation] = useState(null);
   const [locationError, setLocationError] = useState('');
 
-  // Get user location when "distance" filter is selected
+  // localización del usuario para filtro por distancia
   useEffect(() => {
     if (filter === 'distance' && !userLocation) {
       (async () => {
@@ -119,7 +119,7 @@ export default function EventCards({ events }) {
 
   return (
     <View>
-      {/* Filter Buttons */}
+      {/* filtro de botones */}
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filterBar} contentContainerStyle={{paddingHorizontal: 8}}>
         {FILTERS.map(f => (
           <TouchableOpacity

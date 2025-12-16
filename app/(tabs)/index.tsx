@@ -23,10 +23,10 @@ export default function HomeScreen() {
   return (
     <ThemedView style={{ flex: 1 }}>
       
-      {/* Hot events slider */}
+      {/* Top eventos */}
       <EventsCardsSlider events={events} />
 
-      {/* Our event cards */}
+      {/* Cards de eventos */}
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Upcoming Events</ThemedText>
         <ScrollView style={{ flex: 1 }}>
@@ -44,9 +44,11 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   stepContainer: {
-    flex: 1, // Asegúrate de que el contenedor tenga flex: 1
+    flex: 1, 
     gap: 8,
     marginBottom: 8,
+    paddingHorizontal: 16, 
+    paddingVertical: 8,    
   },
   reactLogo: {
     height: 178,

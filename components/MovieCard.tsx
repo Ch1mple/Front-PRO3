@@ -12,14 +12,14 @@ type Movie = {
   genre: string[];
   rate: number;
 };
-
+// prueba eliminada
 const userUid = 'aB1FNMJV5OOOex6jhLJADZJ6VKF3';
 
 export function MovieCard({ movie }: { movie: Movie }) {
   const [isInList, setIsInList] = useState(false);
 
   useEffect(() => {
-    // Fetch user movies and check if this movie exists
+    
     const fetchUserMovies = async () => {
       try {
         const userData = await getUserByUserUid(userUid);
@@ -35,7 +35,7 @@ export function MovieCard({ movie }: { movie: Movie }) {
   const handleAddMovie = async () => {
     try {
       await addMovie(userUid, movie.id);
-      setIsInList(true); // update UI immediately
+      setIsInList(true); 
     } catch (e) {
       console.error('Error adding movie:', e);
     }
@@ -56,7 +56,7 @@ export function MovieCard({ movie }: { movie: Movie }) {
         </Text>
       </View>
 
-      {/* Add / Check button */}
+      {/* boton check */}
       <TouchableOpacity
         style={[
           styles.addButton,

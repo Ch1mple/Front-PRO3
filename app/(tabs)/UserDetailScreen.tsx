@@ -11,6 +11,7 @@ export default function UserDetailScreen() {
   const route = useRoute();
   const { userUid } = route.params;
 
+  // Llamada para obtener datos del usuario y sus eventos
   useFocusEffect(
     useCallback(() => {
       let isActive = true;
@@ -45,7 +46,7 @@ export default function UserDetailScreen() {
 
   if (loading) return <ActivityIndicator style={{ marginTop: 40 }} />;
   if (!user) return <Text>User not found</Text>;
-
+ // Renderizado de cada evento
   const renderEvent = ({ item }) => (
     <TouchableOpacity onPress={() => navigation.navigate('FullEvent', { eventId: item.id, from: 'UserDetailScreen' })}><View style={styles.eventCard}>
        
@@ -58,7 +59,7 @@ export default function UserDetailScreen() {
       
     </View></TouchableOpacity>
   );
-
+// Vista del perfil de usuario con su lista de eventos
   return (
     <FlatList
       ListHeaderComponent={

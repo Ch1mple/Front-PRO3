@@ -16,8 +16,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
-const userUid = 'aB1FNMJV5OOOex6jhLJADZJ6VKF3'; // Replace with actual UID or get from auth
+// usuario utilizado para las pruebas y demo
+const userUid = 'aB1FNMJV5OOOex6jhLJADZJ6VKF3'; 
 
 export default function ProfileScreen() {
   const [showCreateEvent, setShowCreateEvent] = useState(false);
@@ -30,11 +30,11 @@ export default function ProfileScreen() {
     try {
       setLoading(true);
 
-      // Fetch user info
+      // Llmada para obtener datos del usuario
       const userData = await getUserByUserUid(userUid);
       setUser(userData);
 
-      // Fetch events for this user directly
+      // llamada para obtener eventos del usuario
       const userEvents = await getEventsByUserUid(userUid);
       setEvents(userEvents);
     } catch (e) {
@@ -80,7 +80,7 @@ export default function ProfileScreen() {
           />
         </View>
 
-        {/* Profile Info */}
+        {/* Info del perfil */}
         <ThemedView style={styles.titleContainer}>
           <ThemedText type="title">{user.username}'s Events</ThemedText>
         </ThemedView>
@@ -96,12 +96,10 @@ export default function ProfileScreen() {
               {user.location?.city}, {user.location?.region}, {user.location?.country}
             </Text>
           </View>
-          <Text style={styles.createdAt}>
-            Joined: {new Date(user.created_at).toLocaleDateString()}
-          </Text>
+          
         </View>
 
-        {/* Events Grid */}
+        {/* Grid de eventos */}
         {events.length > 0 ? (
           <FlatList
             data={events}
@@ -114,6 +112,7 @@ export default function ProfileScreen() {
                   <Image
                     source={{ uri: item.poster || 'https://via.placeholder.com/150' }}
                     style={styles.eventImage}
+                    resizeMode="cover"
                   />
                   <Text style={styles.eventTitle}>{item.title}</Text>
                   <Text style={styles.eventDate}>{item.date}</Text>
@@ -129,7 +128,7 @@ export default function ProfileScreen() {
         )}
       </ThemedView>
 
-      {/* Floating + Button */}
+      {/*  Botones */}
       <TouchableOpacity
         style={styles.fab}
         onPress={() => setShowCreateEvent(true)}
@@ -144,25 +143,31 @@ const styles = StyleSheet.create({
   container: { alignItems: 'center', padding: 24 },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   avatar: { width: 96, height: 96, borderRadius: 48, marginBottom: 12 },
-  username: { fontSize: 22, fontWeight: 'bold', marginBottom: 4 },
-  description: { fontSize: 15, color: '#555', marginBottom: 4 },
-  email: { fontSize: 14, color: '#888', marginBottom: 8 },
+  username: { fontSize: 22, fontWeight: 'bold', marginBottom: 4, color: '#fff' },
+  description: { fontSize: 15, color: '#fff', marginBottom: 4 },
+  email: { fontSize: 14, color: '#fff', marginBottom: 8 },
   locationRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
   flag: { width: 32, height: 32, marginRight: 8, borderRadius: 16 },
-  locationText: { fontSize: 14, color: '#444' },
-  createdAt: { fontSize: 13, color: '#aaa', marginTop: 8 },
+  locationText: { fontSize: 14, color: '#b3a5a5ff' },
+  createdAt: { fontSize: 13, color: '#fff', marginTop: 8 },
   headerImage: { color: '#808080', bottom: -90, left: -35, position: 'absolute' },
   titleContainer: { flexDirection: 'row', gap: 8 },
   eventsGrid: { paddingHorizontal: 16, paddingBottom: 40 },
   eventCard: {
     flex: 1,
     margin: 8,
-    backgroundColor: '#75f8fff3',
+    backgroundColor: '#d7fbfdf3',
     borderRadius: 8,
     padding: 10,
     alignItems: 'center',
+    overflow: 'hidden', 
   },
-  eventImage: { width: 120, height: 180, borderRadius: 6, marginBottom: 8 },
+  eventImage: {
+    width: '100%',     
+    height: 220,       
+    marginBottom: 8,
+    borderRadius: 0,    
+  },
   eventTitle: { fontSize: 14, fontWeight: 'bold', textAlign: 'center', marginBottom: 4 },
   eventDate: { fontSize: 12, color: '#666', marginBottom: 2 },
   eventLocation: { fontSize: 12, color: '#444' },

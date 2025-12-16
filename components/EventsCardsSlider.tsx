@@ -3,6 +3,7 @@ import { Image } from 'expo-image';
 import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+// slider de eventos destacados (hot en el servidor)
 const HotEventCard = ({ event }) => {
   const navigation = useNavigation();
   return (
@@ -16,13 +17,13 @@ const HotEventCard = ({ event }) => {
     </TouchableOpacity>
   );
 };
-
+// Componente principal del slider de eventos
 export default function EventsCardsSlider({ events }) {
   const hotEvents = Array.isArray(events) ? events.filter(e => e.label === 'hot') : [];
   const flatListRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Auto-scroll logic
+  // auto scroll lateral
   useEffect(() => {
     if (!hotEvents.length) return;
     const interval = setInterval(() => {
@@ -36,9 +37,9 @@ export default function EventsCardsSlider({ events }) {
   }, [hotEvents.length]);
 
   if (!hotEvents.length) return null;
-
+// vista del slider (componente)
   return (
-    <View style={{ marginBottom: 16 }}>
+    <View style={styles.container}>
       <Text style={styles.sliderTitle}>🔥 Top Events</Text>
       <FlatList
         ref={flatListRef}
@@ -64,12 +65,16 @@ export default function EventsCardsSlider({ events }) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    marginBottom: 16,
+    marginTop: 16,
+    paddingHorizontal: 16, 
+  },
   sliderTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginLeft: 12,
     marginBottom: 8,
-    color: '#d32f2f',
+    color: '#fdb7b7ff',
   },
   card: {
     width: 180,

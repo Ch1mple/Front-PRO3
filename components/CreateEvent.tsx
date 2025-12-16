@@ -13,10 +13,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
-const categoriesList = ['Game Boards', 'Food', 'Music', 'Art', 'Sports'];
+ // Lista de categorías disponibles
+const categoriesList = ['Food', 'Music', 'Art', 'Sports'];
 const userUid = 'aB1FNMJV5OOOex6jhLJADZJ6VKF3';
-
+ // Componente para crear un nuevo evento
 export default function CreateEvent({ onClose }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -30,14 +30,14 @@ export default function CreateEvent({ onClose }) {
   const [coords, setCoords] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
   const [typingTimeout, setTypingTimeout] = useState(null);
-
+ // Manejo de selección/deselección de categorías
   const toggleCategory = (cat) => {
     setCategory((prev) =>
       prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
     );
   };
 
-  // 🔎 Autocomplete with debounce (500ms)
+  // autocompletar ubicación
   const handleLocationChange = (text) => {
     setLocation(text);
     setCoords(null);
@@ -48,7 +48,7 @@ export default function CreateEvent({ onClose }) {
       setSuggestions([]);
       return;
     }
-
+// Llamada a Nominatim API 
     const timeout = setTimeout(async () => {
       try {
         const res = await fetch(
@@ -67,7 +67,7 @@ export default function CreateEvent({ onClose }) {
     setTypingTimeout(timeout);
   };
 
-  // 📍 Select suggestion
+  // sugerencia de ubicación seleccionada
   const handleSelectSuggestion = (place) => {
     setLocation(place.display_name);
     setSuggestions([]);
@@ -95,7 +95,7 @@ export default function CreateEvent({ onClose }) {
       Alert.alert('Validation', 'Please select a location from suggestions.');
       return;
     }
-
+    // Envío de datos del nuevo evento al servidor
     try {
       setLoading(true);
 
@@ -108,7 +108,7 @@ export default function CreateEvent({ onClose }) {
         poster,
         category,
         user_uid: userUid,
-        price: parseFloat(price), // store as number
+        price: parseFloat(price), 
         latitude: coords.latitude,
         longitude: coords.longitude,
       };
@@ -116,7 +116,7 @@ export default function CreateEvent({ onClose }) {
       await postEvent(newEvent);
       Alert.alert('Success', 'Event created successfully!');
 
-      // Reset
+      // Reseteo
       setTitle('');
       setDescription('');
       setDate('');
@@ -133,7 +133,7 @@ export default function CreateEvent({ onClose }) {
       setLoading(false);
     }
   };
-
+ // vista del formulario de creación de evento
   return (
     <View style={{ flex: 1 }}>
       {onClose && (
@@ -170,7 +170,7 @@ export default function CreateEvent({ onClose }) {
           placeholder="Search place..."
         />
 
-        {/* Suggestions */}
+        {/* sugerencias */}
         {suggestions.length > 0 && (
           <FlatList
             data={suggestions}
@@ -187,7 +187,7 @@ export default function CreateEvent({ onClose }) {
           />
         )}
 
-        {/* Coordinates preview */}
+        {/* preview de las coordenadas */}
         {coords && (
           <View style={styles.previewBox}>
             <Text>

@@ -5,11 +5,13 @@ import { useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text } from 'react-native';
 
+// Vista detallada de un evento con imagen, título, fecha, ubicación y descripción
+
 export default function FullEventScreen() {
   const { eventId } = useLocalSearchParams();
   const [event, setEvent] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
-
+// Llamada a getEventById para obtener los datos del evento
   useEffect(() => {
     if (!eventId) {
       setLoading(false);
@@ -41,7 +43,7 @@ export default function FullEventScreen() {
       </ThemedView>
     );
   }
-
+// Detalle del evento (placeholder si no hay imagen)
   return (
     <ThemedView style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.content}>
@@ -58,6 +60,6 @@ const styles = StyleSheet.create({
   container: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 16 },
   content: { padding: 16 },
   image: { width: '100%', height: 200, borderRadius: 8, marginBottom: 12 },
-  meta: { color: '#666', marginBottom: 12 },
-  description: { fontSize: 15, color: '#333' },
+  meta: { color: '#9b9b9bff', marginBottom: 12 },
+  description: { fontSize: 15, color: '#ffffffff' },
 });

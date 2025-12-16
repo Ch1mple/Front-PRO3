@@ -15,7 +15,7 @@ export default function TabTwoScreen() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
 
-  // Fetch all movies
+  // Prueba para mostrar items probando una base de datos propia que tenia de otro proyecto(Eliminado)
   const fetchAll = useCallback(async () => {
     setLoading(true);
     try {
@@ -28,7 +28,6 @@ export default function TabTwoScreen() {
     }
   }, []);
 
-  // Debounced search function (inline to avoid dependency warning)
   const debouncedSearch = useMemo(
     () =>
       debounce(async (query: string) => {
@@ -45,24 +44,21 @@ export default function TabTwoScreen() {
         } finally {
           setLoading(false);
         }
-      }, 600), // delay in ms
+      }, 600),
     [fetchAll]
   );
 
-  // Cleanup debounce on unmount
   useEffect(() => {
     return () => {
       debouncedSearch.cancel();
     };
   }, [debouncedSearch]);
 
-  // Handle search input change
   const handleSearchChange = (text: string) => {
     setSearch(text);
     debouncedSearch(text);
   };
 
-  // Load all movies when screen gains focus
   useFocusEffect(
     useCallback(() => {
       fetchAll();
@@ -70,7 +66,6 @@ export default function TabTwoScreen() {
   );
 
   return (
-    // Replaced ParallaxScrollView with a simple ThemedView container
     <ThemedView style={{ flex: 1 }}>
       <View style={styles.headerContainer}>
         <IconSymbol
@@ -85,7 +80,7 @@ export default function TabTwoScreen() {
         <ThemedText type="title">Explore</ThemedText>
       </ThemedView>
 
-      {/* Search bar */}
+      {/* Barra de búsqueda */}
       <TextInput
         style={styles.searchInput}
         placeholder="Search movies..."
@@ -114,7 +109,7 @@ const styles = StyleSheet.create({
     left: -35,
     position: 'absolute',
   },
-  // Added headerContainer to hold header image
+
   headerContainer: {
     height: 160,
     alignItems: 'center',

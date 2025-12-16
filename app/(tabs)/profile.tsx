@@ -15,8 +15,8 @@ import {
   View,
 } from 'react-native';
 
-const userUid = 'aB1FNMJV5OOOex6jhLJADZJ6VKF3'; // Replace with actual UID or get from auth
-
+const userUid = 'aB1FNMJV5OOOex6jhLJADZJ6VKF3'; 
+// perfil utilizados paras las pruebas que ya no existe en la app
 export default function ProfileScreen() {
   const [user, setUser] = useState<any>(null);
   const [movies, setMovies] = useState<any[]>([]);

@@ -14,7 +14,7 @@ import {
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
-import { getAllUsers, getSeachUserByUsername, getSearchEventByTitle } from '@/services/apiService';
+import { getAllUsers, getEvents, getSeachUserByUsername, getSearchEventByTitle } from '@/services/apiService';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 export default function TabTwoScreen() {
@@ -25,20 +25,32 @@ export default function TabTwoScreen() {
 
   const navigation = useNavigation();
 
-  // Fetch all users by default
+  // Llamada para obtener todos los usuarios o eventos según el filtro
   const fetchAll = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await getAllUsers();
-      setItems(data);
+      if (filter === 'events') {
+        const data = await getEvents();
+        // normalizamos a la misma forma que los items de usuario para el cambio en el boton
+        const mapped = (data || []).map((ev: any) => ({
+          user_uid: ev.user_uid ?? `ev-${ev.id}`,
+          username: ev.title,
+          description: ev.description,
+          img_url: ev.poster,
+        }));
+        setItems(mapped);
+      } else {
+        const data = await getAllUsers();
+        setItems(data);
+      }
     } catch {
       setItems([]);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [filter]);
 
-  // Debounced search (users + events)
+  // Cambio de búsqueda
   const debouncedSearch = useMemo(
     () =>
       debounce(async (query: string) => {
@@ -74,7 +86,7 @@ export default function TabTwoScreen() {
     [fetchAll, filter]
   );
 
-  // Update search whenever filter changes
+  // Actualizacion de búsqueda
   useEffect(() => {
     debouncedSearch(search);
   }, [filter]);
@@ -90,12 +102,18 @@ export default function TabTwoScreen() {
     debouncedSearch(text);
   };
 
-  // Reload on screen focus
+  // recarga 
   useFocusEffect(
     useCallback(() => {
       fetchAll();
     }, [fetchAll])
   );
+
+  const truncateDescription = (text: string) => {
+    if (!text) return '';
+    const words = text.trim().split(/\s+/);
+    return words.length > 10 ? words.slice(0, 10).join(' ') + '...' : text;
+  };
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
@@ -105,7 +123,7 @@ export default function TabTwoScreen() {
       <Image source={{ uri: item.img_url }} style={styles.avatar} />
       <View style={styles.userInfo}>
         <Text style={styles.username}>{item.username}</Text>
-        <Text style={styles.description}>{item.description}</Text>
+        <Text style={styles.description}>{truncateDescription(item.description)}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -120,7 +138,7 @@ export default function TabTwoScreen() {
         <ThemedText type="title">Explore Users & Events</ThemedText>
       </ThemedView>
 
-      {/* Filter buttons */}
+      {/* Botones */}
       <View style={styles.filterContainer}>
         <TouchableOpacity
           style={[styles.filterButton, filter === 'users' && styles.filterSelected]}
@@ -136,7 +154,7 @@ export default function TabTwoScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Search bar */}
+      {/* Barra de búsqueda */}
       <TextInput
         style={styles.searchInput}
         placeholder="Search users or events..."

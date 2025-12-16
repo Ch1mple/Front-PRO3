@@ -49,13 +49,6 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="profile copy 2"
-          options={{
-            title: 'Profile Link',
-            tabBarIcon: ({ color }) => <AntDesign name="user" size={24} color={color} />,
-          }}
-        />
-        <Tabs.Screen
           name="explore"
           options={{
             title: 'Explore',
